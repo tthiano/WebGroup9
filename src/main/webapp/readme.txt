@@ -1,0 +1,1 @@
+chạy index trước
