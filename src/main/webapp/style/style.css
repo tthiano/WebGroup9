@@ -1,0 +1,177 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+}
+
+.btn-edit {
+	border: none;
+	outline: none;
+	background: blue;
+	font-family: inherit;
+	font-size: inherit;
+	color: white;
+	width: 43%;
+}
+
+.btn-delete {
+	border: none;
+	outline: none;
+	background: red;
+	font-family: inherit;
+	font-size: inherit;
+	color: white;
+	width: 43%;
+}
+
+.headDiv {
+	padding: 5px;
+	background-color: #eeeeee;
+	text-align: left;
+	height: 30px;
+	font-size: 15px;
+	border: 1px solid gray;
+}
+
+.borderDiv {
+	border: 1px solid gray;
+	font-size: 15px;
+}
+
+table {
+	font-size: 15px; border-collapse : collapse;
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: collapse;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #eeeeee;
+}
+
+form.search {
+	margin: auto;
+	width: 140px;
+	padding-top: 10px;
+}
+
+form.search input[type=text] {
+	padding: 5px;
+	font-size: 15px;
+	border: 1px solid grey;
+	float: left;
+	width: 80%;
+	background: white;
+}
+
+form.search button {
+	float: left;
+	width: 20%;
+	padding: 5px;
+	background: white;
+	color: black;
+	font-size: 15px;
+	border: 1px solid grey;
+	border-left: none;
+	cursor: pointer;
+}
+
+.sidenav {
+	border: 1px solid gray;
+	height: 91%;
+	width: 160px;
+	position: fixed;
+	z-index: 1;
+	bottom: 0;
+	background-color: #eeeeee;
+	overflow-x: hidden;
+	text-align: left;
+}
+
+.sidenav a {
+	padding: 6px 8px 6px 16px;
+	text-decoration: none;
+	font-size: 15px;
+	color: blue;
+	display: block;
+	border: 1px solid gray;
+}
+
+.sidenav a:hover {
+	background-color: #c0c0c0;
+}
+
+.main {
+	margin-left: 160px; /* Same as the width of the sidenav */
+	font-size: 15px; /* Increased text to enable scrolling */
+	padding: 0px 10px;
+}
+
+.dropdown {
+	display: inline-block;
+}
+
+.dropdown .dropbtn {
+	font-size: 15px;
+	border: none;
+	outline: none;
+	color: blue;
+	padding: 14px 16px;
+	background-color: #eeeeee;
+	font-family: inherit;
+	margin: 0;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #eeeeee;
+	margin-left: -60px;
+}
+
+.dropdown-content a {
+	float: center;
+	color: #818181;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+}
+
+.dropdown:hover .dropbtn {
+	background-color: #c0c0c0;
+}
+
+.dropdown-content a:hover {
+	background-color: #c0c0c0;
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+.topnav {
+	border: 1px solid gray;
+	overflow: hidden;
+	background-color: #eeeeee;
+	right: 0;
+	color: #818181;
+}
+
+.topnav a {
+	float: left;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 15px;
+}
+
+.topnav-right {
+	float: right;
+}
