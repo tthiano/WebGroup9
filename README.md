@@ -1,2 +1,2 @@
 # Cuoi-ky-lap-trinh-web
-cuối kỳ lập trình web
+thay đổi thuộc tính( version dependancy) sao cho phù hợp
