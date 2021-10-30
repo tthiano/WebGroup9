@@ -3,7 +3,15 @@
 * {
 	box-sizing: border-box;
 }
-
+.btn-Page {
+	border: none;
+	outline: none;
+	background: #eeeeee;
+	font-family: inherit;
+	font-size: inherit;
+	color: gray;
+	text-align: center;
+}
 .btn-edit {
 	border: none;
 	outline: none;
@@ -37,7 +45,11 @@
 	border: 1px solid gray;
 	font-size: 15px;
 }
-
+form.button{
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
 table {
 	font-size: 15px; border-collapse : collapse;
 	width: 98%;
@@ -89,7 +101,7 @@ form.search button {
 	width: 160px;
 	position: fixed;
 	z-index: 1;
-	bottom: 0;
+	top: 54px;
 	background-color: #eeeeee;
 	overflow-x: hidden;
 	text-align: left;
@@ -162,6 +174,7 @@ form.search button {
 	background-color: #eeeeee;
 	right: 0;
 	color: #818181;
+	
 }
 
 .topnav a {
