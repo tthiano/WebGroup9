@@ -13,6 +13,33 @@ public class ContentBean {
 	private int NumPage = 0;
 	private int NumId = 0;
 	private String Titles=null;
+	private String AuthorId="*";
+	private String WhereSql="";
+	public String getAuthorId(String Id) {
+		String sqlSelectId;
+		if(AuthorId!="*")
+			sqlSelectId= "SELECT AuthorId FROM content WHERE AuthorId ="+AuthorId;
+		else
+			sqlSelectId= "SELECT AuthorId FROM content";
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "hola");
+			PreparedStatement ps = conn.prepareStatement(sqlSelectId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				AuthorId= rs.getString("AuthorId");}
+		} catch (SQLException e) {
+			// handle the exception
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+		}
+		return AuthorId;
+	}
+
+	public void setAuthorId(String authorId) {
+		AuthorId = authorId;
+	}
+
 	public ContentBean() {
 	}
 
@@ -32,10 +59,10 @@ public class ContentBean {
 		return Titles;
 	}
 	public void setTitles(String Offset) {
-		String sqlSelectId = "SELECT Title FROM content ORDER BY CreateDate DESC LIMIT 1 OFFSET " + Offset+" ";
+		String sqlSelectId = "SELECT Title FROM content"+WhereSql+" ORDER BY CreateDate DESC LIMIT 1 OFFSET " + Offset+" ";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "Quyquynh1");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "hola");
 			PreparedStatement ps = conn.prepareStatement(sqlSelectId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -45,14 +72,13 @@ public class ContentBean {
 			// handle the exception
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	public void setId(String Offset) {
-		String sqlSelectId = "SELECT id FROM content ORDER BY CreateDate DESC LIMIT 1 OFFSET " + Offset+" ";
+		String sqlSelectId = "SELECT id FROM content"+WhereSql+" ORDER BY CreateDate DESC LIMIT 1 OFFSET " + Offset+" ";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "Quyquynh1");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "hola");
 			PreparedStatement ps = conn.prepareStatement(sqlSelectId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -67,11 +93,11 @@ public class ContentBean {
 	}
 
 	public void setBrief(String Offset) {
-		String sqlSelectId = "SELECT left(Brief,100) as Brief FROM content ORDER BY CreateDate DESC LIMIT 1 OFFSET "
+		String sqlSelectId = "SELECT left(Brief,100) as Brief FROM content"+WhereSql+" ORDER BY CreateDate DESC LIMIT 1 OFFSET "
 				+ Offset;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "Quyquynh1");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "hola");
 
 			PreparedStatement ps = conn.prepareStatement(sqlSelectId);
 			ResultSet rs = ps.executeQuery();
@@ -87,10 +113,10 @@ public class ContentBean {
 	}
 
 	public void setCreatedDate(String Offset) {
-		String sqlSelectId = "SELECT CreateDate FROM content ORDER BY CreateDate DESC LIMIT 1 OFFSET " + Offset;
+		String sqlSelectId = "SELECT CreateDate FROM content"+WhereSql+" ORDER BY CreateDate DESC LIMIT 1 OFFSET " + Offset;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "Quyquynh1");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "hola");
 
 			PreparedStatement ps = conn.prepareStatement(sqlSelectId);
 			ResultSet rs = ps.executeQuery();
@@ -106,10 +132,10 @@ public class ContentBean {
 	}
 
 	public int getNumPage() {
-		String sqlSelectId = "SELECT COUNT(id) AS NumId FROM content";
+		String sqlSelectId = "SELECT COUNT(id) AS NumId FROM content"+WhereSql+"";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "Quyquynh1");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "hola");
 
 			PreparedStatement ps = conn.prepareStatement(sqlSelectId);
 			ResultSet rs = ps.executeQuery();
@@ -127,10 +153,10 @@ public class ContentBean {
 	}
 
 	public int getNumId() {
-		String sqlSelectId = "SELECT COUNT(id) AS NumId FROM content ";
+		String sqlSelectId = "SELECT COUNT(id) AS NumId FROM content "+WhereSql+"";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "Quyquynh1");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myds", "root", "hola");
 
 			PreparedStatement ps = conn.prepareStatement(sqlSelectId);
 			ResultSet rs = ps.executeQuery();
