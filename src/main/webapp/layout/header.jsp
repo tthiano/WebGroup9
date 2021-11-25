@@ -13,9 +13,9 @@
 				<button class="dropbtn">
 					<i class="fa fa-user"></i> <i class="fa fa-caret-down"></i>
 				</button>
-				<div class="dropdown-content"style="float:right;">
-					<a href="#"><i class="fa fa-user"></i> User Profile</a>
-					 <a href="#"><i class="fa fa-sign-out"> Logout</i></a>
+				<div class="dropdown-content">
+					<a href="edit-profile.tiles"><i class="fa fa-user"></i> User Profile</a>
+					<a href="edit-profile.tiles"><i class="fa fa-sign-out"></i> Logout    &emsp;</a>
 				</div>
 			</div>
 		</div>
