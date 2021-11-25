@@ -1,11 +1,15 @@
 package controler;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.ContentBean;
+import model.contentModel;
+import dao.contentDAO;
 
 public class contentView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,34 +28,37 @@ public class contentView extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ContentBean ContentBean = new ContentBean();
-		int numPage = ContentBean.getNumPage();
-		int numId = ContentBean.getNumId();
+		RequestDispatcher dispatcher;
+		contentDAO content = new contentDAO();
+		int numPage = content.getNumPage();
+		int numId = content.getNumId();
 		if (numId == 0) {
 			response.sendRedirect("view-content.tiles?Page=0&numId=0");
 		} else {
 			String NumPageButton = "";
 			int currentPage = 1;
-			if (numPage != 0 && numId > 10) {
-				if (numPage <= 5) {
-					while (currentPage <= numPage) {
-						NumPageButton = NumPageButton + "&Bt" + Integer.toString(currentPage) + "="
-								+ Integer.toString(currentPage);
-						currentPage++;
-					}
-				} else {
-					while (currentPage <= 4) {
-						NumPageButton = NumPageButton + "&Bt" + Integer.toString(currentPage) + "="
-								+ Integer.toString(currentPage);
-						currentPage++;
-					}
-					NumPageButton = NumPageButton + "&Bt=" + Integer.toString(numPage);
-				}
+			while (currentPage <= 5) {
+				if (currentPage <= numPage) {
+					NumPageButton = NumPageButton + "&Bt" + Integer.toString(currentPage + 5) + "="
+							+ Integer.toString(currentPage);
+					currentPage++;
+				} else
+					break;
+				if (currentPage != numPage && currentPage == 5)
+					NumPageButton = NumPageButton + "&BtLast=" + Integer.toString(numPage);
 			}
 			if (numPage >= 1) {
-				response.sendRedirect("view-content.tiles?Page=0&numId=10" + NumPageButton);
+				List<contentModel> listContent = content.selectAllContents(10, 0);
+				request.setAttribute("listContent", listContent);
+				 dispatcher = request
+						.getRequestDispatcher("view-content.tiles?Page=0&numId=10" + NumPageButton);
+				dispatcher.forward(request, response);
 			} else {
-				response.sendRedirect("view-content.tiles?Page=0&numId=" + numId + NumPageButton);
+				List<contentModel> listContent = content.selectAllContents(numId, 0);
+				request.setAttribute("listContent", listContent);
+				 dispatcher = request
+						.getRequestDispatcher("view-content.tiles?Page=0&numId= " + numId + NumPageButton);
+				dispatcher.forward(request, response);
 			}
 		}
 	}
@@ -62,72 +69,67 @@ public class contentView extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ContentBean ContentBean = new ContentBean();
-		int numPage = ContentBean.getNumPage();
+		contentDAO content = new contentDAO();
+		int numPage = content.getNumPage();
 		int pageReq = Integer.parseInt(request.getParameter("Page"));
 		if (numPage < pageReq || 0 > pageReq) {
 			response.sendRedirect("view-content.tiles?Page=0&numId=0");
 		} else {
 			String NumPageButton = "";
-			int currentPage = 1;
-			int pageAdded = 1;
-			int beforeAfter = -1;
+			int currentBt = 1;
+			int butP = 1;
 			if (numPage != 0) {
 				{
-					int break_check = 0;
-					while (currentPage <= 4) {
-						if (pageReq + beforeAfter * pageAdded > 0 && break_check == 0) {
-							if (pageReq + beforeAfter * pageAdded < 0 || pageReq + beforeAfter * pageAdded > numPage) {
-								break;
-							}
-							NumPageButton = NumPageButton + "&Bt" + Integer.toString(pageReq + beforeAfter * pageAdded)
-									+ "=" + Integer.toString(pageReq + beforeAfter * pageAdded);
-							if (beforeAfter == -1) {
-								beforeAfter = 1;
-							} else {
-								beforeAfter = -1;
-								pageAdded++;
-							}
-							currentPage++;
-						} else {
-							if (pageReq != 0 && pageReq + beforeAfter * pageAdded < 0
-									|| pageReq + beforeAfter * pageAdded > numPage) {
-								break;
-							}
-							if (pageReq != 0) {
-								if (pageReq + beforeAfter * pageAdded == 0)
-									break;
-							}
-							if (break_check == 0) {
-								beforeAfter *= -1;
-								break_check = 1;
-							}
-							NumPageButton = NumPageButton + "&Bt" + Integer.toString(pageReq + beforeAfter * pageAdded)
-									+ "=" + Integer.toString(pageReq + beforeAfter * pageAdded);
-							pageAdded++;
-							currentPage++;
+					while (currentBt <= 5) {
+						if (pageReq - butP >= 0) {
+							NumPageButton = NumPageButton + "&Bt" + Integer.toString(currentBt) + "="
+									+ Integer.toString(pageReq - butP);
+							currentBt++;
+							butP++;
+						} else
+							break;
+						if (pageReq - butP - 1 >0 && currentBt == 5) {
+							NumPageButton = NumPageButton + "&BtFirst=" + Integer.toString(0);
 						}
 					}
-					if (pageReq != 0) {
-						if (pageAdded + pageReq >= numPage) {
-							NumPageButton = NumPageButton + "&Bt5=0";
-						} else {
-							NumPageButton = NumPageButton + "&Bt5=0";
-							NumPageButton = NumPageButton + "&Bt6=" + Integer.toString(numPage);
+					currentBt=6;
+					butP = 1;
+					while (currentBt <= 10) {
+						if (pageReq + butP <= numPage) {
+							NumPageButton = NumPageButton + "&Bt" + Integer.toString(currentBt) + "="
+									+ Integer.toString(pageReq + butP);
+							currentBt++;
+							butP++;
+						} else
+							break;
+						if (pageReq + butP - 1 < numPage && currentBt == 10) {
+							NumPageButton = NumPageButton + "&BtLast=" + Integer.toString(numPage);
 						}
 					}
 				}
 			}
-			int numId = ContentBean.getNumId();
+			int numId = content.getNumId();
 			if (pageReq != 0) {
 				numId = numId - numPage * 10;
-				response.sendRedirect("view-content.tiles?Page=" + pageReq + "&numId=" + numId + NumPageButton);
+				List<contentModel> listContent = content.selectAllContents(10, pageReq);
+				request.setAttribute("listContent", listContent);
+				RequestDispatcher dispatcher = request
+						.getRequestDispatcher("view-content.tiles?Page=" + pageReq + "&numId=" + numId + NumPageButton);
+				dispatcher.forward(request, response);
 			} else {
 
 				if (numPage >= 1) {
-					response.sendRedirect("view-content.tiles?Page=0&numId=10" + NumPageButton);
+					List<contentModel> listContent = content.selectAllContents(10, pageReq);
+					request.setAttribute("listContent", listContent);
+					RequestDispatcher dispatcher = request
+							.getRequestDispatcher("view-content.tiles?Page=0&numId=10" + NumPageButton);
+					dispatcher.forward(request, response);
 				} else {
-					response.sendRedirect("view-content.tiles?Page=0&numId=" + numId + NumPageButton);
+					List<contentModel> listContent = content.selectAllContents(numId, pageReq);
+					request.setAttribute("listContent", listContent);
+					RequestDispatcher dispatcher = request
+							.getRequestDispatcher("view-content.tiles?Page=0&numId=" + numId + NumPageButton);
+					dispatcher.forward(request, response);
 				}
 			}
 		}
