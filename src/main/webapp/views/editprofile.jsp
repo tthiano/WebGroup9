@@ -1,206 +1,165 @@
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="en" dir="ltr">
+<html lang="vi">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <meta charset="UTF-8" />
-<title>edit profile</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/style/editprofile_style.css" />
-
+<title>Register</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/style/register_style.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-<%
-			String checker = request.getParameter("id");
-			if (checker == null) {
-				response.sendRedirect("/loginForm");
-			}
-			checker = request.getParameter("name");
-			if (checker == null) {
-				response.sendRedirect("/loginForm");}
-			String lname= request.getParameter("lname");
-			String fname= request.getParameter("fname");
-			int phone = Integer.parseInt(request.getParameter("phone"));
-			String email= request.getParameter("email");
-			String des= request.getParameter("des");
-			int id = Integer.parseInt(request.getParameter("id"));
-			%>
-		<div class="mid">
-			<div class="title">
-				<h2>Edit Profile</h2>
-				 <hr width="98%" align="center" color="#D5D5D5" size="2px"/>
-			</div>
-			<form method="post" onsubmit="return validate()" action="editProfile" >
-			<div class="personal-details">
-				<p>    Profile Form Elements</p>
-				  <div class="col-6">
-				<span class="error" id="fid" class="text-danger"></span>
-				<div class="inputs">
-					<label><b>First name</b></label> <input name = "firstname" value="<%=fname%>" class="form-control" type="text"
-						placeholder="Enter the First name" id="firstname" onblur="validate1()" onkeyup="fname()">
-				</div>
-				<span class="error" id="lid" class="text-danger"></span>
-				<div class="inputs">
-					<label><b>Last name</b></label> <input name = "lastname"  value="<%=lname%>" class="form-control" type="text"
-						placeholder="Enter the Last name" id="lastname" onblur="validate2()" onkeyup="lname()">
+	<div class="container">
+		<div class="title">Register</div>
+		
+		<form method="post" onsubmit="return validate()" action="insertUser" >
+		<center>	 <p class="text-danger">${mess}</p></center>
+			<div class="user-detail">
+				<span class="error" id="uid" class="text-danger"></span>
+				<div class="input-box">
+					<span class="details"> </span> <input value="${user.username }" min="3" max="50" onblur="validate1()" name="username" id="username" type="text" autocomplete="off" placeholder="Enter username"/>
 				</div>
 				<span class="error" id="eid" class="text-danger"></span>
-				<div class="inputs">
-					<label><b>Email</b></label> <input name = "email" id="email" min="3" max="50" onblur="validate4()" onkeyup="check()"  class="form-control" type="email"
-						placeholder="Enter the Email" value="<%=email%>">
-				</div>
-				
-				<span class="error" id="pid" class="text-danger"></span>
-				
-				<div class="inputs">
-					<label><b>Phone</b></label><span class="details"> </span> <input name = "phone" value="<%=phone%>" onblur="validate3()" onkeyup="phonecheck()" id="phone" type="text" autocomplete="off" placeholder="Enter your phone number"/>
+				<div class="input-box" >
+					<span class="details"> </span> <input min="3" max="50" onblur="validate2()" onkeyup="check()" name="email" id="email" type="text" autocomplete="off" placeholder="Enter your email"/>
 						
 				</div>
-				</div>
-				<div class="row">
-					<div class="inputs">
-						<label><b>Description</b></label>
-						<textarea name = "des" id="des" class="form-control" type="text"
-							placeholder="Enter self-description""><%=des%></textarea>
-					</div>
-				</div>
-				</div>
-				<div class="justify-content-end">
-					<button type="submit" class="btn">Submit</button>					
-					<button href ="editProfileForm?id=<%= id %>&name=<%=checker%>" class="btn">Reset</button>
-				</div>
-			<input type="hidden" id="id" name="id" value="<%= id %>">
-				<input type="hidden" id="name" name="name" value="<%= checker %>">
-				</form>
-				</div>
-				<script>
+				<div class="error-text">
+               Please Enter Valid Email Address
+            	</div>
 				
-         const first = document.querySelector("#firstname");
-    	 const last = document.querySelector("#lastname");
-    	 const phone = document.querySelector("#phone");
-    		const email = document.querySelector("#email");
-    		let reggExp =  /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-            function check(){
-              if(email.value.match(reggExp)){
-                email.style.borderColor = "#27ae60";
-                email.style.background = "#eafaf1";
-                error.style.display = "none";
-                return true;
-              }else{
-                email.style.borderColor = "#e74c3c";
-                email.style.background = "#fceae9";
-                error.style.display = "block";
-                return false;
-              }
-            }
-		         var regExp = /^(0[0-9]{8,12})$/;
-		         function phonecheck(){
-		           if(!phone.value.match(regExp)){
-		             phone.style.borderColor = "#e74c3c";
-		             phone.style.background = "#fceae9";
-		             return true;
-		           }else{
-		             phone.style.borderColor = "#27ae60";
-		             phone.style.background = "#eafaf1";
-		             return false;
-		           }
-		         }
-		         function fname(){
-		        	 var regName = /^([A-Za-z]{3,30})$/;
-		        	 var fname = document.getElementById('firstname').value;
-		        	    if(!regName.test(fname)){
-		        	    	first.style.borderColor = "#e74c3c";
-		                    first.style.background = "#fceae9";
-		        	        return true;
-		        	    }else{
-		        	    	first.style.borderColor = "#27ae60";
-		                    first.style.background = "#eafaf1";
-		        	        return false;
-		        	    }
-		         }
-		         function lname(){
-		        	 var regName = /^([A-Za-z]{3,30})$/;
-		        	 var lname = document.getElementById('lastname').value;
-		        	    if(!regName.test(lname)){
-		        	    	last.style.borderColor = "#e74c3c";
-		                    last.style.background = "#fceae9";
-		        	        return true;
-		        	    }else{
-		        	    	last.style.borderColor = "#27ae60";
-		                    last.style.background = "#eafaf1";
-		        	        return false;
-		        	    }
-		         }
+				<span class="error" id="pid" class="text-danger"></span>
+				<div class="input-box">
+					<span class="details"> </span> <input input min="3" max="50" onblur="validate3()" name="password" id="password" type="password" autocomplete="off" placeholder="Enter your password"
+						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z].{8,}"/>
+				</div>
+				<span class="error" id="rid" class="text-danger"></span>
+				<div class="input-box">
+					<span class="details"> </span> <input input min="3" max="50" onblur="validate4()"  id="rpassword" type="password" autocomplete="off" placeholder="Confirm your password"/>
+				</div>
+			
+			</div>
+			<div class = "button">
+    			<button type="submit" >Register </button>
+			</div>
+		</form>
+			<script>
+         const email = document.querySelector("#email");
+         const error = document.querySelector(".error-text");
+         const btn = document.querySelector("button");
+         let regExp =  /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+         function check(){
+           if(email.value.match(regExp)){
+             email.style.borderColor = "#27ae60";
+             email.style.background = "#eafaf1";
+             error.style.display = "none";
+             return true;
+           }else{
+             email.style.borderColor = "#e74c3c";
+             email.style.background = "#fceae9";
+             error.style.display = "block";
+             return false;
+           }
+         }
+         const user = document.querySelector("#username");
+    	 const pass = document.querySelector("#password");
+    	 const repass = document.querySelector("#rpassword");
+    	 
          function validate1(){
-        	 
-        	 if (first.value == ""){
-        		 first.style.borderColor = "#e74c3c";
-                 first.style.background = "#fceae9";
+             var u = document.getElementById("username").value;
+
+        	 if (user.value == ""){
+        		 user.style.borderColor = "#e74c3c";
+                 user.style.background = "#fceae9";
+                 error.style.display = "none";
         	 }
+        	 else{
+        		 user.style.borderColor = "#27ae60";
+                 user.style.background = "#eafaf1";
+                 error.style.display = "none";
+               }
          }
          function validate2(){
-        	 
-        	 if (last.value == ""){
-        		 last.style.borderColor = "#e74c3c";
-                 last.style.background = "#fceae9";
-        	 }
-         }
-         function validate3(){
-        	 if (phone.value == "" ){
-        		 phone.style.borderColor = "#e74c3c";
-                 phone.style.background = "#fceae9";
-        	 }
-         }
-         function validate4(){
         	 if (email.value == ""){
         		 email.style.borderColor = "#e74c3c";
                  email.style.background = "#fceae9";
                  error.style.display = "none";
         	 }
          }
+         function validate3(){
+        	 if (pass.value == "" ){
+        		 pass.style.borderColor = "#e74c3c";
+                 pass.style.background = "#fceae9";
+                 error.style.display = "none";
+        	 }
+        	 else{
+        		 pass.style.borderColor = "#27ae60";
+                 pass.style.background = "#eafaf1";
+                 error.style.display = "none";
+               }
+         }
+         function validate4(){
+        	 if (repass.value == "" || pass.value != repass.value){
+        		 repass.style.borderColor = "#e74c3c";
+                 repass.style.background = "#fceae9";
+                 error.style.display = "none";
+        	 }
+        	 else{
+        		 repass.style.borderColor = "#27ae60";
+                 repass.style.background = "#eafaf1";
+               }
+         }
          function validate()  {
-             var f = document.getElementById("firstname").value;
-             var l = document.getElementById("lastname").value;
-             var p = document.getElementById("phone").value;
+             var u = document.getElementById("username").value;
              var e = document.getElementById("email").value;
-             if(e == "") {
+             var p = document.getElementById("password").value;
+             var r = document.getElementById("rpassword").value;
+
+             if(u== "") {
+            	 document.getElementById("uid").innerHTML = " ** Username must be fill";
+                 return false;
+             }
+             else if(u.length <3 || u.length > 30){
+            	 document.getElementById("uid").innerHTML = " ** Username length must be between 3-30";
+                 return false;
+             }
+             else if(e == "") {
             	 document.getElementById("eid").innerHTML = " ** E-mail must be fill";
                  return false;
              }
              else if(e.length<5 ){
-            	 document.getElementById("eid").innerHTML = " ** E-mail length must be upto 5";
-                 return false;
-             }
-             else if(!(email.value.match(reggExp))){
-            	 document.getElementById("eid").innerHTML = " ** E-mail invalid";
-                 return false;
-             }
-             if(f== "") {
-            	 document.getElementById("fid").innerHTML = " ** Firstname must be fill";
-                 return false;
-             }
-             else if(f.length <3 || f.length > 30){
-            	 document.getElementById("fid").innerHTML = " ** Firstname length must be between 3-30";
-                 return false;
-             }
-             else if(l == "") {
-            	 document.getElementById("lid").innerHTML = " ** Lastname must be fill";
-                 return false;
-             }
-             else if(l.length< 3 || l.length >30 ){
-            	 document.getElementById("lid").innerHTML = " ** Lastname must be between 3-30";
+            	 document.getElementById("eid").innerHTML = " ** Email length must be larger or equal to 5";
                  return false;
              }
              else if(p== "") {
-            	 document.getElementById("pid").innerHTML = " ** Phone number must be fill";
+            	 document.getElementById("pid").innerHTML = " ** Password must be fill";
                  return false;
              }
-             else if(p.length<9 || p.length > 13){
-            	 document.getElementById("pid").innerHTML = " ** Phone number length must be between 9-13";
+             else if(p.length<8 || p.length > 30){
+            	 document.getElementById("pid").innerHTML = " ** Password length must be between 8-30";
                  return false;
              }
+             else if(!(email.value.match(regExp))){
+            	 document.getElementById("eid").innerHTML = " ** E-mail invalid";
+                 return false;
+             }
+             else if(r== "") {
+            	 document.getElementById("rid").innerHTML = " ** Confirm password must be fill";
+                 return false;
+             }
+             else if(pass.value != repass.value){
+            	 document.getElementById("rid").innerHTML = " ** Confirm password incorrect";
+                 return false;
+             }
+
              return true;
          }
       </script>
+		<a	href="Login.jsp">Click here to Login</a>
+	</div>
+
 </body>
+
 </html>
